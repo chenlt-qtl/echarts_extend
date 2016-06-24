@@ -6,7 +6,7 @@
 
     module.exports = SeriesModel.extend({
 
-        type: 'series.effectScatter1',
+        type: 'series.singleEffectScatter',
 
         dependencies: ['grid', 'polar'],
 

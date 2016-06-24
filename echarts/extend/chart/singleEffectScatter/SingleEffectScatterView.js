@@ -1,14 +1,14 @@
 
 
     var SymbolDraw = require('../../../echarts-master/lib/chart/helper/SymbolDraw');
-    var NewEffectSymbol = require('../../helper/NewEffectSymbol');
+    var SingleEffectSymbol = require('../../helper/SingleEffectSymbol');
 
     require('../../../echarts-master/lib/echarts').extendChartView({
 
-        type: 'effectScatter1',
+        type: 'singleEffectScatter',
 
         init: function () {
-            this._symbolDraw = new SymbolDraw(NewEffectSymbol);
+            this._symbolDraw = new SymbolDraw(SingleEffectSymbol);
         },
 
         render: function (seriesModel, ecModel, api) {
@@ -19,7 +19,6 @@
                 motionBlur: true,
                 lastFrameAlpha: 0.9
             });
-
 
             var data = seriesModel.getData();
             var effectSymbolDraw = this._symbolDraw;

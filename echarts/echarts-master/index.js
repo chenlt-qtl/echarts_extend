@@ -20,7 +20,7 @@ require('./lib/chart/sankey');
 require('./lib/chart/boxplot');
 require('./lib/chart/candlestick');
 require('./lib/chart/effectScatter');
-require('../extend/chart/effectScatter1');
+require('../extend/chart/singleEffectScatter');
 require('./lib/chart/lines');
 require('./lib/chart/heatmap');
 
