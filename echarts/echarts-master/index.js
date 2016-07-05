@@ -21,8 +21,6 @@ require('./lib/chart/boxplot');
 require('./lib/chart/candlestick');
 require('./lib/chart/effectScatter');
 require('../extend/chart/singleEffectScatter');
-//require('../extend/tool/ChinaCoord');
-//require('../extend/tool/WorldCoord');
 require('./lib/chart/lines');
 require('./lib/chart/heatmap');
 
@@ -46,5 +44,7 @@ require('./lib/component/markArea');
 
 require('./lib/component/timeline');
 require('./lib/component/toolbox');
+
+require('../extend/tool/ChinaCoord');
 
 require('zrender/lib/vml/vml');

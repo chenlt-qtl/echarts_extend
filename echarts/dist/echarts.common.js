@@ -75,7 +75,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__webpack_require__(319);
 	__webpack_require__(368);
 
-	__webpack_require__(381);
+	__webpack_require__(382);
 
 /***/ },
 /* 1 */
@@ -39534,16 +39534,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 381 */
+/* 381 */,
+/* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    __webpack_require__(382);
-	    __webpack_require__(81).registerPainter('vml', __webpack_require__(384));
+	    __webpack_require__(383);
+	    __webpack_require__(81).registerPainter('vml', __webpack_require__(385));
 
 
 /***/ },
-/* 382 */
+/* 383 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// http://www.w3.org/TR/NOTE-VML
@@ -39564,7 +39565,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var Gradient = __webpack_require__(61);
 
-	    var vmlCore = __webpack_require__(383);
+	    var vmlCore = __webpack_require__(384);
 
 	    var round = Math.round;
 	    var sqrt = Math.sqrt;
@@ -40601,7 +40602,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 383 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -40654,7 +40655,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 384 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -40666,7 +40667,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	    var zrLog = __webpack_require__(40);
-	    var vmlCore = __webpack_require__(383);
+	    var vmlCore = __webpack_require__(384);
 
 	    function parseInt10(val) {
 	        return parseInt(val, 10);

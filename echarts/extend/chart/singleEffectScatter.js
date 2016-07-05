@@ -5,8 +5,8 @@
 
     require('./singleEffectScatter/SingleEffectScatterSeries');
     require('./singleEffectScatter/SingleEffectScatterView');
-
-    echarts.registerVisualCoding('chart', zrUtil.curry(
+    
+    echarts.registerVisual(zrUtil.curry(
         require('../../echarts-master/lib/visual/symbol'), 'singleEffectScatter', 'circle', null
     ));
     echarts.registerLayout(zrUtil.curry(

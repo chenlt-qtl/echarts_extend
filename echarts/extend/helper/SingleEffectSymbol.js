@@ -25,17 +25,15 @@
         this.updateData(data, idx);
     }
     
-    SingleEffectSymbol.prototype.startEffectAnimation = function (period, brushType, rippleScale, effectOffset, z, zlevel) {
+    SingleEffectSymbol.prototype.startEffectAnimation = function (effectCfg) {
     		
-                var symbolType = this._symbolType;
-                
-                var color = this._color;
+			    	var symbolType = effectCfg.symbolType;
+			        var color = effectCfg.color;
+			        var rippleGroup = this.childAt(1);
 
-                var rippleGroup = this.childAt(1);
-
-                    var ripplePath = symbolUtil.createSymbol(
-                        symbolType, -0.5, -0.5, 1, 1, color
-                    );
+			        var ripplePath = symbolUtil.createSymbol(
+		                symbolType, -0.5, -0.5, 1, 1, color
+		            );
    
                     ripplePath.attr({
                         style: {
