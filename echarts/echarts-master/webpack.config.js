@@ -16,7 +16,7 @@ module.exports = {
     output: {
         libraryTarget: 'umd',
         library: 'echarts',
-        path: __dirname + '/dist',
+        path: '../dist',
         filename: PROD ? '[name].min.js' : '[name].js'
     }
 };

@@ -1,6 +1,6 @@
 {
   "name": "echarts",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "A powerful charting and visualization library for browser",
   "keywords": [
     "visualization",
@@ -34,15 +34,15 @@
     "webpack": "^1.12.13",
     "zrender": "^3.1.1"
   },
-  "gitHead": "d00542a130e2be3df52a38bb1816c9368ad3367a",
+  "gitHead": "17da8048717be39112f7088f5234b63fcfdb2bba",
   "bugs": {
     "url": "https://github.com/ecomfe/echarts/issues"
   },
-  "_id": "echarts@3.2.0",
-  "_shasum": "d90fe2d688c39aeeb7a1ed47b1da047781bd6596",
+  "_id": "echarts@3.2.1",
+  "_shasum": "d354a0ff4e710cba8aa1384df8a092eab58e2b36",
   "_from": "echarts@latest",
-  "_npmVersion": "3.7.3",
-  "_nodeVersion": "5.9.0",
+  "_npmVersion": "3.9.5",
+  "_nodeVersion": "6.2.2",
   "_npmUser": {
     "name": "ecomfe",
     "email": "ecomfe@gmail.com"
@@ -54,13 +54,13 @@
     }
   ],
   "dist": {
-    "shasum": "d90fe2d688c39aeeb7a1ed47b1da047781bd6596",
-    "tarball": "https://registry.npmjs.org/echarts/-/echarts-3.2.0.tgz"
+    "shasum": "d354a0ff4e710cba8aa1384df8a092eab58e2b36",
+    "tarball": "https://registry.npmjs.org/echarts/-/echarts-3.2.1.tgz"
   },
   "_npmOperationalInternal": {
     "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/echarts-3.2.0.tgz_1467300540242_0.9933648761361837"
+    "tmp": "tmp/echarts-3.2.1.tgz_1467631732535_0.5836196839809418"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/echarts/-/echarts-3.2.0.tgz"
+  "_resolved": "https://registry.npmjs.org/echarts/-/echarts-3.2.1.tgz"
 }
