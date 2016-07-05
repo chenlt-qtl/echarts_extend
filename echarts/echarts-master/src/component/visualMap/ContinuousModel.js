@@ -27,20 +27,23 @@ define(function(require) {
             realtime: true,         // Whether realtime update.
             itemHeight: null,       // The length of the range control edge.
             itemWidth: null,        // The length of the other side.
-            hoverLink: true         // Enable hover highlight.
+            hoverLink: true,        // Enable hover highlight.
+            hoverLinkDataSize: null,// The size of hovered data.
+            hoverLinkOnHandle: true // Whether trigger hoverLink when hover handle.
         },
 
         /**
          * @override
          */
-        doMergeOption: function (newOption, isInit) {
-            ContinuousModel.superApply(this, 'doMergeOption', arguments);
+        optionUpdated: function (newOption, isInit) {
+            ContinuousModel.superApply(this, 'optionUpdated', arguments);
 
-            this.resetTargetSeries(newOption, isInit);
+            this.resetTargetSeries();
             this.resetExtent();
 
             this.resetVisual(function (mappingOption) {
                 mappingOption.mappingMethod = 'linear';
+                mappingOption.dataExtent = this.getExtent();
             });
 
             this._resetRange();
@@ -51,7 +54,7 @@ define(function(require) {
          * @override
          */
         resetItemSize: function () {
-            VisualMapModel.prototype.resetItemSize.apply(this, arguments);
+            ContinuousModel.superApply(this, 'resetItemSize', arguments);
 
             var itemSize = this.itemSize;
 
@@ -99,7 +102,6 @@ define(function(require) {
         },
 
         /**
-         * @public
          * @override
          */
         setSelected: function (selected) {
@@ -127,7 +129,6 @@ define(function(require) {
         },
 
         /**
-         * @public
          * @override
          */
         getValueState: function (value) {
@@ -143,7 +144,6 @@ define(function(require) {
         },
 
         /**
-         * @public
          * @params {Array.<number>} range target value: range[0] <= value && value <= range[1]
          * @return {Array.<Object>} [{seriesId, dataIndices: <Array.<number>>}, ...]
          */
@@ -158,13 +158,74 @@ define(function(require) {
                     range[0] <= value && value <= range[1] && dataIndices.push(dataIndex);
                 }, true, this);
 
-                result.push({seriesId: seriesModel.id, dataIndices: dataIndices});
+                result.push({seriesId: seriesModel.id, dataIndex: dataIndices});
+            }, this);
+
+            return result;
+        },
+
+        getStops: function (seriesModel, getColorVisual) {
+            if (!this.isTargetSeries(seriesModel)) {
+                return;
+            }
+
+            var result = [];
+            insertStopList(this, 'outOfRange', this.getExtent(), result);
+            insertStopList(this, 'inRange', this.option.range.slice(), result);
+
+            zrUtil.each(result, function (item) {
+                item.color = getColorVisual(this, item.value, item.valueState);
             }, this);
 
             return result;
         }
 
     });
+
+    function getColorStopValues(visualMapModel, valueState, dataExtent) {
+        var mapping = visualMapModel.targetVisuals[valueState].color;
+
+        if (!mapping) {
+            return dataExtent.slice();
+        }
+
+        var count = mapping.option.visual.length;
+
+        if (count <= 1 || dataExtent[0] === dataExtent[1]) {
+            return dataExtent.slice();
+        }
+
+        // We only use linear mappping for color, so we can do inverse mapping:
+        var step = (dataExtent[1] - dataExtent[0]) / (count - 1);
+        var value = dataExtent[0];
+        var stopValues = [];
+        for (var i = 0; i < count && value < dataExtent[1]; i++) {
+            stopValues.push(value);
+            value += step;
+        }
+        stopValues.push(dataExtent[1]);
+
+        return stopValues;
+    }
+
+    function insertStopList(visualMapModel, valueState, dataExtent, result) {
+        var stops = getColorStopValues(visualMapModel, valueState, dataExtent);
+
+        zrUtil.each(stops, function (val) {
+            var stop = {value: val, valueState: valueState};
+            var inRange = 0;
+            for (var i = 0; i < result.length; i++) {
+                // Format to: outOfRange -- inRange -- outOfRange.
+                inRange |= result[i].valueState === 'inRange';
+                if (val < result[i].value) {
+                    result.splice(i, 0, stop);
+                    return;
+                }
+                inRange && (result[i].valueState = 'inRange');
+            }
+            result.push(stop);
+        });
+    }
 
     return ContinuousModel;
 

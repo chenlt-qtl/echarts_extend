@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__webpack_require__(294);
 	__webpack_require__(339);
 
-	__webpack_require__(353);
+	__webpack_require__(354);
 
 /***/ },
 /* 1 */
@@ -20713,6 +20713,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            symbolType, -0.5, -0.5, 1, 1, color
 	        );
 
+	        symbolPath.setColor('#bbb');
 	        symbolPath.attr({
 	            z2: 100,
 	            culling: true,
@@ -20833,7 +20834,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            pos[1] = numberUtil.parsePercent(symbolOffset[1], symbolSize[1]);
 	        }
 
-	        symbolPath.setColor(color);
+	        symbolPath.setColor('color');
 
 	        zrUtil.extend(
 	            elStyle,
@@ -21222,7 +21223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                symbolStyle.stroke = color;
 	            }
 	            else if (this.__isEmptyBrush) {
-	                symbolStyle.stroke = color;
+	            	symbolStyle.stroke = null;
 	                symbolStyle.fill = null;
 	            }
 	            else {
@@ -21281,7 +21282,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            symbolPath.setColor = symbolPathSetColor;
 
-	            symbolPath.setColor(color);
+	            symbolPath.setColor('#bbb');
 
 	            return symbolPath;
 	        }
@@ -35945,16 +35946,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 353 */
+/* 353 */,
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    __webpack_require__(354);
-	    __webpack_require__(78).registerPainter('vml', __webpack_require__(356));
+	    __webpack_require__(355);
+	    __webpack_require__(78).registerPainter('vml', __webpack_require__(357));
 
 
 /***/ },
-/* 354 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// http://www.w3.org/TR/NOTE-VML
@@ -35975,7 +35977,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var Gradient = __webpack_require__(4);
 
-	    var vmlCore = __webpack_require__(355);
+	    var vmlCore = __webpack_require__(356);
 
 	    var round = Math.round;
 	    var sqrt = Math.sqrt;
@@ -37011,7 +37013,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 355 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -37064,7 +37066,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 356 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -37076,7 +37078,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	    var zrLog = __webpack_require__(39);
-	    var vmlCore = __webpack_require__(355);
+	    var vmlCore = __webpack_require__(356);
 
 	    function parseInt10(val) {
 	        return parseInt(val, 10);

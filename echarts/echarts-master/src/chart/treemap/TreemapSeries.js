@@ -21,6 +21,9 @@ define(function(require) {
         _viewRoot: null,
 
         defaultOption: {
+            // Disable progressive rendering
+            progressive: 0,
+            hoverLayerThreshold: Infinity,
             // center: ['50%', '50%'],          // not supported in ec3.
             // size: ['80%', '80%'],            // deprecated, compatible with ec2.
             left: 'center',
@@ -100,7 +103,7 @@ define(function(require) {
 
                 }
             },
-            color: 'none',              // Array. Specify color list of each level.
+            color: [],                  // Array. Specify color list of each level.
                                         // level[0].color would be global color list.
             colorAlpha: null,           // Array. Specify color alpha range of each level, like [0.2, 0.8]
             colorSaturation: null,      // Array. Specify color saturation of each level, like [0.2, 0.5]
@@ -331,6 +334,7 @@ define(function(require) {
         zrUtil.each(levels, function (levelDefine) {
             var model = new Model(levelDefine);
             var modelColor = model.get('color');
+
             if (model.get('itemStyle.normal.color')
                 || (modelColor && modelColor !== 'none')
             ) {

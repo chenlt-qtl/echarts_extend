@@ -137,7 +137,7 @@ define(function (require) {
                 }
             ];
 
-            var data = this.fixData(option.data);
+            var data = this.fixData(option.data || []);
             var nameList = [];
             var nameMap = this.nameMap = {};
             var count = 0;
@@ -165,10 +165,7 @@ define(function (require) {
          * @return {Array.<string> } specified dimensions on the axis.
          */
         coordDimToDataDim: function (axisDim) {
-            var dims = {
-                oneDim: ['time']
-            };
-            return dims[axisDim];
+            return ['time'];
         },
 
         /**
@@ -283,7 +280,7 @@ define(function (require) {
             zlevel: 0,
             z: 2,
 
-            coordinateSystem: 'single',
+            coordinateSystem: 'singleAxis',
 
             // gap in axis's orthogonal orientation
             boundaryGap: ['10%', '10%'],

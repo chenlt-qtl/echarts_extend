@@ -21,6 +21,8 @@ require('./lib/chart/boxplot');
 require('./lib/chart/candlestick');
 require('./lib/chart/effectScatter');
 require('../extend/chart/singleEffectScatter');
+//require('../extend/tool/ChinaCoord');
+//require('../extend/tool/WorldCoord');
 require('./lib/chart/lines');
 require('./lib/chart/heatmap');
 
@@ -30,6 +32,8 @@ require('./lib/component/tooltip');
 require('./lib/component/polar');
 require('./lib/component/geo');
 require('./lib/component/parallel');
+require('./lib/component/singleAxis');
+require('./lib/component/brush');
 
 require('./lib/component/title');
 
@@ -38,6 +42,7 @@ require('./lib/component/visualMap');
 
 require('./lib/component/markPoint');
 require('./lib/component/markLine');
+require('./lib/component/markArea');
 
 require('./lib/component/timeline');
 require('./lib/component/toolbox');

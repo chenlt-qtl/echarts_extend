@@ -20701,6 +20701,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            symbolType, -0.5, -0.5, 1, 1, color
 	        );
 
+	        symbolPath.setColor('#bbb');
 	        symbolPath.attr({
 	            z2: 100,
 	            culling: true,
@@ -20821,7 +20822,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            pos[1] = numberUtil.parsePercent(symbolOffset[1], symbolSize[1]);
 	        }
 
-	        symbolPath.setColor(color);
+	        symbolPath.setColor('color');
 
 	        zrUtil.extend(
 	            elStyle,
@@ -21210,7 +21211,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                symbolStyle.stroke = color;
 	            }
 	            else if (this.__isEmptyBrush) {
-	                symbolStyle.stroke = color;
+	            	symbolStyle.stroke = null;
 	                symbolStyle.fill = null;
 	            }
 	            else {
@@ -21269,7 +21270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            symbolPath.setColor = symbolPathSetColor;
 
-	            symbolPath.setColor(color);
+	            symbolPath.setColor('#bbb');
 
 	            return symbolPath;
 	        }

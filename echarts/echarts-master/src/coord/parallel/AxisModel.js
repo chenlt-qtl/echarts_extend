@@ -97,6 +97,8 @@ define(function(require) {
 
         parallelIndex: null,
 
+        nameTruncateLengthOutExpand: 1,
+
         areaSelectStyle: {
             width: 20,
             borderWidth: 1,
@@ -104,6 +106,8 @@ define(function(require) {
             color: 'rgba(160,197,232)',
             opacity: 0.3
         },
+
+        realtime: true, // Whether realtime update view when select.
 
         z: 10
     };

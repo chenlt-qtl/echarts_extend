@@ -1,6 +1,13 @@
 var PROD = process.argv.indexOf('-p') >= 0;
+var webpack = require('webpack');
 
 module.exports = {
+    plugins: [
+        new webpack.DefinePlugin({
+            'typeof __DEV__': JSON.stringify('boolean'),
+            __DEV__: PROD ? false : true
+        })
+    ],
     entry: {
         'echarts': __dirname + '/index.js',
         'echarts.simple': __dirname + '/index.simple.js',
@@ -9,7 +16,7 @@ module.exports = {
     output: {
         libraryTarget: 'umd',
         library: 'echarts',
-        path: '../dist',
+        path: __dirname + '/dist',
         filename: PROD ? '[name].min.js' : '[name].js'
     }
 };

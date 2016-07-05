@@ -27,12 +27,12 @@ define(function (require) {
     var modelUtil = require('../util/model');
     var isObject = zrUtil.isObject;
 
-    var IMMUTABLE_PROPERTIES = [
-        'stackedOn', '_nameList', '_idList', '_rawData'
+    var TRANSFERABLE_PROPERTIES = [
+        'stackedOn', 'hasItemOption', '_nameList', '_idList', '_rawData'
     ];
 
-    var transferImmuProperties = function (a, b) {
-        zrUtil.each(IMMUTABLE_PROPERTIES.concat(b.__wrappedMethods || []), function (propName) {
+    var transferProperties = function (a, b) {
+        zrUtil.each(TRANSFERABLE_PROPERTIES.concat(b.__wrappedMethods || []), function (propName) {
             if (b.hasOwnProperty(propName)) {
                 a[propName] = b[propName];
             }
@@ -184,6 +184,11 @@ define(function (require) {
     var listProto = List.prototype;
 
     listProto.type = 'list';
+    /**
+     * If each data item has it's own option
+     * @type {boolean}
+     */
+    listProto.hasItemOption = true;
 
     /**
      * Get dimension name
@@ -217,8 +222,10 @@ define(function (require) {
     listProto.initData = function (data, nameList, dimValueGetter) {
         data = data || [];
 
-        if (!zrUtil.isArray(data)) {
-            throw new Error('Invalid data.');
+        if (__DEV__) {
+            if (!zrUtil.isArray(data)) {
+                throw new Error('Invalid data.');
+            }
         }
 
         this._rawData = data;
@@ -243,11 +250,19 @@ define(function (require) {
             storage[dimensions[i]] = new DataCtor(size);
         }
 
+        var self = this;
+        if (!dimValueGetter) {
+            self.hasItemOption = false;
+        }
         // Default dim value getter
         dimValueGetter = dimValueGetter || function (dataItem, dimName, dataIndex, dimIndex) {
             var value = modelUtil.getDataItemValue(dataItem);
+            // If any dataItem is like { value: 10 }
+            if (modelUtil.isDataItemOption(dataItem)) {
+                self.hasItemOption = true;
+            }
             return modelUtil.converDataValue(
-                zrUtil.isArray(value)
+                (value instanceof Array)
                     ? value[dimIndex]
                     // If value is a single number or something else not array.
                     : value,
@@ -277,13 +292,15 @@ define(function (require) {
 
         // Use the name in option and create id
         for (var i = 0; i < data.length; i++) {
-            var id = '';
             if (!nameList[i]) {
-                nameList[i] = data[i].name;
-                // Try using the id in option
-                id = data[i].id;
+                if (data[i] && data[i].name != null) {
+                    nameList[i] = data[i].name;
+                }
             }
             var name = nameList[i] || '';
+            // Try using the id in option
+            var id = data[i] && data[i].id;
+
             if (!id && name) {
                 // Use name as id and add counter to avoid same name
                 nameRepeatCount[name] = nameRepeatCount[name] || 0;
@@ -395,6 +412,7 @@ define(function (require) {
      * @param {boolean} stack
      */
     listProto.getDataExtent = function (dim, stack) {
+        dim = this.getDimension(dim);
         var dimData = this._storage[dim];
         var dimInfo = this.getDimensionInfo(dim);
         stack = (dimInfo && dimInfo.stackable) && stack;
@@ -417,7 +435,7 @@ define(function (require) {
                 value < min && (min = value);
                 value > max && (max = value);
             }
-            return (this._extent[dim + stack] = [min, max]);
+            return (this._extent[dim + !!stack] = [min, max]);
         }
         else {
             return [Infinity, -Infinity];
@@ -483,6 +501,32 @@ define(function (require) {
             }
         }
 
+        return -1;
+    };
+
+    /**
+     * Retreive the index with given raw data index
+     * @param {number} idx
+     * @param {number} name
+     * @return {number}
+     */
+    listProto.indexOfRawIndex = function (rawIndex) {
+        // Indices are ascending
+        var indices = this.indices;
+        var left = 0;
+        var right = indices.length - 1;
+        while (left <= right) {
+            var mid = (left + right) / 2 | 0;
+            if (indices[mid] < rawIndex) {
+                left = mid + 1;
+            }
+            else if (indices[mid] > rawIndex) {
+                right = mid - 1;
+            }
+            else {
+                return mid;
+            }
+        }
         return -1;
     };
 
@@ -575,39 +619,41 @@ define(function (require) {
      *  list.each(['x', 'y'], function (x, y, idx) {});
      *  list.each(function (idx) {})
      */
-    listProto.each = function (dimensions, cb, stack, context) {
-        if (typeof dimensions === 'function') {
+    listProto.each = function (dims, cb, stack, context) {
+        if (typeof dims === 'function') {
             context = stack;
             stack = cb;
-            cb = dimensions;
-            dimensions = [];
+            cb = dims;
+            dims = [];
         }
 
-        dimensions = zrUtil.map(
-            normalizeDimensions(dimensions), this.getDimension, this
-        );
+        dims = zrUtil.map(normalizeDimensions(dims), this.getDimension, this);
 
         var value = [];
-        var dimSize = dimensions.length;
+        var dimSize = dims.length;
         var indices = this.indices;
 
         context = context || this;
 
         for (var i = 0; i < indices.length; i++) {
-            if (dimSize === 0) {
-                cb.call(context, i);
-            }
             // Simple optimization
-            else if (dimSize === 1) {
-                cb.call(context, this.get(dimensions[0], i, stack), i);
-            }
-            else {
-                for (var k = 0; k < dimSize; k++) {
-                    value[k] = this.get(dimensions[k], i, stack);
-                }
-                // Index
-                value[k] = i;
-                cb.apply(context, value);
+            switch (dimSize) {
+                case 0:
+                    cb.call(context, i);
+                    break;
+                case 1:
+                    cb.call(context, this.get(dims[0], i, stack), i);
+                    break;
+                case 2:
+                    cb.call(context, this.get(dims[0], i, stack), this.get(dims[1], i, stack), i);
+                    break;
+                default:
+                    for (var k = 0; k < dimSize; k++) {
+                        value[k] = this.get(dims[k], i, stack);
+                    }
+                    // Index
+                    value[k] = i;
+                    cb.apply(context, value);
             }
         }
     };
@@ -696,7 +742,7 @@ define(function (require) {
             original.hostModel
         );
         // FIXME If needs stackedOn, value may already been stacked
-        transferImmuProperties(list, original);
+        transferProperties(list, original);
 
         var storage = list._storage = {};
         var originalStorage = original._storage;
@@ -965,6 +1011,14 @@ define(function (require) {
         itemVisual[key] = value;
     };
 
+    /**
+     * Clear itemVisuals and list visual.
+     */
+    listProto.clearAllVisual = function () {
+        this._visual = {};
+        this._itemVisuals = [];
+    };
+
     var setItemDataAndSeriesIndex = function (child) {
         child.seriesIndex = this.seriesIndex;
         child.dataIndex = this.dataIndex;
@@ -1023,9 +1077,15 @@ define(function (require) {
         // FIXME
         list._storage = this._storage;
 
-        transferImmuProperties(list, this);
+        transferProperties(list, this);
 
+
+        // Clone will not change the data extent and indices
         list.indices = this.indices.slice();
+
+        if (this._extent) {
+            list._extent = zrUtil.extend({}, this._extent);
+        }
 
         return list;
     };
