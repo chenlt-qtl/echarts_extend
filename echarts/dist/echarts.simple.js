@@ -23311,8 +23311,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                symbolStyle.stroke = color;
 	            }
 	            else if (this.__isEmptyBrush) {
-	                symbolStyle.stroke = color;
-	                symbolStyle.fill = '#fff';
+	                symbolStyle.stroke = null;
+	                symbolStyle.fill = null;
 	            }
 	            else {
 	                // FIXME 判断图形默认是填充还是描边，使用 onlyStroke ?

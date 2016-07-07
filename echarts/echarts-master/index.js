@@ -46,5 +46,6 @@ require('./lib/component/timeline');
 require('./lib/component/toolbox');
 
 require('../extend/tool/ChinaCoord');
+require('../extend/tool/WorldCoord');
 
 require('zrender/lib/vml/vml');

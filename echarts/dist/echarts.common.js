@@ -75,7 +75,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__webpack_require__(319);
 	__webpack_require__(368);
 
-	__webpack_require__(382);
+	__webpack_require__(383);
 
 /***/ },
 /* 1 */
@@ -23324,8 +23324,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                symbolStyle.stroke = color;
 	            }
 	            else if (this.__isEmptyBrush) {
-	                symbolStyle.stroke = color;
-	                symbolStyle.fill = '#fff';
+	                symbolStyle.stroke = null;
+	                symbolStyle.fill = null;
 	            }
 	            else {
 	                // FIXME 判断图形默认是填充还是描边，使用 onlyStroke ?
@@ -39535,16 +39535,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 381 */,
-/* 382 */
+/* 382 */,
+/* 383 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	    __webpack_require__(383);
-	    __webpack_require__(81).registerPainter('vml', __webpack_require__(385));
+	    __webpack_require__(384);
+	    __webpack_require__(81).registerPainter('vml', __webpack_require__(386));
 
 
 /***/ },
-/* 383 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// http://www.w3.org/TR/NOTE-VML
@@ -39565,7 +39566,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var Gradient = __webpack_require__(61);
 
-	    var vmlCore = __webpack_require__(384);
+	    var vmlCore = __webpack_require__(385);
 
 	    var round = Math.round;
 	    var sqrt = Math.sqrt;
@@ -40602,7 +40603,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 384 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -40655,7 +40656,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 385 */
+/* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -40667,7 +40668,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	    var zrLog = __webpack_require__(40);
-	    var vmlCore = __webpack_require__(384);
+	    var vmlCore = __webpack_require__(385);
 
 	    function parseInt10(val) {
 	        return parseInt(val, 10);

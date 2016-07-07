@@ -26,38 +26,37 @@
     }
     
     SingleEffectSymbol.prototype.startEffectAnimation = function (effectCfg) {
-    		
-			    	var symbolType = effectCfg.symbolType;
+			        var symbolType = effectCfg.symbolType;
 			        var color = effectCfg.color;
 			        var rippleGroup = this.childAt(1);
 
-			        var ripplePath = symbolUtil.createSymbol(
-		                symbolType, -0.5, -0.5, 1, 1, color
-		            );
+                    var ripplePath = symbolUtil.createSymbol(
+                        symbolType, -0.5, -0.5, 1, 1, color
+                    );
    
                     ripplePath.attr({
                         style: {
-                            stroke: brushType === 'stroke' ? color : null,
-                            fill: brushType === 'fill' ? color : null,
+                            stroke: effectCfg.brushType === 'stroke' ? color : null,
+                            fill: effectCfg.brushType === 'fill' ? color : null,
                             strokeNoScale: true
                         },
                         z2: 99,
                         silent: true,
                         scale: [1, 1],
-                        z: z,
-                        zlevel: zlevel
+                        z: effectCfg.z,
+                        zlevel: effectCfg.zlevel
                     });
 
                     var delay = 0;
                     // TODO Configurable period
                     ripplePath.animate('', true)
-                        .when(period, {
-                            scale: [rippleScale, rippleScale]
+                        .when(effectCfg.period, {
+                            scale: [effectCfg.rippleScale, effectCfg.rippleScale]
                         })
                         .delay(delay)
                         .start();
                     ripplePath.animateStyle(true)
-                        .when(period, {
+                        .when(effectCfg.period, {
                             opacity: 0
                         })
                         .delay(delay)
